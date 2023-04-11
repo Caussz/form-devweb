@@ -1,62 +1,61 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref,computed } from 'vue'
+const name = ref()
+const age = ref()
+const date = ref()
+const state = ref()
+const city = ref()
+const adress = ref()
+const hobbi = ref()
+const langP = ref()
+const biografia = ref()
+const mostrar = ref(true)
+ 
 
 const usuario = ref({
-  nome: String,
-  idade: Number,
-  dm: Date,
-  estado: String,
-  cidade: String,
-  endereco: String,
-  hobbies: String,
-  lingProg: String,
-  bio: String
+  nome: name,
+  idade: age,
+  dm: date,
+  estado: state,
+  cidade: city,
+  endereco: adress,
+  hobbies: hobbi,
+  lingProg: langP,
+  bio: biografia
 })
 
-const name = ref(' ')
-const age = ref(0)
-const date = ref(' ')
-const state = ref(' ')
-const adress = ref(' ')
-const hobbi = ref(' ')
-const langP = ref(' ')
-const biografia = ref(' ')
-
-const confirma = computed((nome, idade, dm, estado, cidade, endereco, hobbies, lingProg, bio) => {
-  usuario.value.nome = nome;
-  usuario.value.idade = idade;
-  usuario.value.dm = dm;
-  usuario.value.estado = estado;
-  usuario.value.cidade = cidade;
-  usuario.value.endereco = endereco;
-  usuario.value.hobbies = hobbies;
-  usuario.value.lingProg = lingProg;
-  usuario.value.bio = bio;
-})
-
-
+function login(){
+ if(name.value.length > 3){
+   mostrar.value = !mostrar.value
+  }
+}
 </script>
 
 <template>
 
   <main class="container">
     <h2>Form DevWeb</h2>
-
-    <form> 
-        <div class="input-field">
-            <input type="text" placeholder="Seu nome">
-            <div class="underline"></div>
-        </div>
-        <br>
-        <div class="input-field">
-            <input type="number" placeholder="Sua idade">
-            <div class="underline"></div>
-        </div>
-        <input type="submit" value="Cadastrar info">
-        <br>
-    </form>
-
-   
+<div v-if="mostrar">
+  <form @submit.prevent="login"> 
+    <div class="input-field">
+        <input type="text" v-model="name" placeholder="Seu nome">
+        <div class="underline"></div>
+    </div>
+    <br>
+    <div class="input-field">
+        <input v-model="age" type="number" placeholder="Sua idade">
+        <div class="underline"></div>
+    </div>
+    <br>
+    <div class="input-field">
+        <input v-model="dm" type="date" placeholder="Data de nascimento">
+        <div class="underline"></div>
+    </div>
+    <input @click="login" type="submit" value="Cadastrar info">
+    <br>
+</form>
+</div>
+    <div v-else>{{ usuario.nome }}</div>
 </main>
 
 
