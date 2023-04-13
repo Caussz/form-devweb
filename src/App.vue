@@ -1,64 +1,180 @@
 <script setup>
-import { ref,computed } from 'vue'
+import { ref } from 'vue'
 const name = ref()
-const age = ref()
 const date = ref()
+const mail = ref()
 const state = ref()
 const city = ref()
 const adress = ref()
 const hobbi = ref()
 const langP = ref()
 const biografia = ref()
+const senha = ref()
+const confirmaSenha = ref()
 const mostrar = ref(true)
+const parametro = ref(false)
+const SenhaE = ref(false)
  
-
 const usuario = ref({
   nome: name,
-  idade: age,
+  email: mail,
   dm: date,
   estado: state,
   cidade: city,
   endereco: adress,
   hobbies: hobbi,
   lingProg: langP,
-  bio: biografia
+  bio: biografia,
+  pass: senha
 })
-
 function login(){
- if(name.value.length > 3){
-   mostrar.value = !mostrar.value
+
+  if(name.value.length < 3 || biografia.value.length < 3 || langP.value.length < 3 || hobbi.value.length < 3 || senha.value.length < 3 || mail.value.length < 3 || city.value.length < 3 || adress.value.length < 3){
+   parametro.value = !parametro.value
+  }
+  
+  if (senha.value != confirmaSenha.value) {
+    //alert("senha incorreta")
+    SenhaE.value = true
+  }
+  else {
+    mostrar.value = !mostrar.value
   }
 }
 </script>
 
 <template>
-
+  <div v-if="SenhaE" class="alert">
+    <span class="closebtn" @click="SenhaE = !SenhaE">&times;</span>
+    <strong>Erro!</strong> A senha deve ter pelo menos 6 caracteres.
+</div>
+<div v-if="parametro" class="alert">
+  <span class="closebtn" @click="parametro = !parametro">&times;</span>
+  <strong>Erro!</strong> Preencha todos os parametros.
+</div>
   <main class="container">
     <h2>Form DevWeb</h2>
 <div v-if="mostrar">
   <form @submit.prevent="login"> 
     <div class="input-field">
-        <input type="text" v-model="name" placeholder="Seu nome">
+        <input type="text" v-model="name" placeholder="Seu nome" minlength="3">
         <div class="underline"></div>
     </div>
-    <br>
     <div class="input-field">
-        <input v-model="age" type="number" placeholder="Sua idade">
-        <div class="underline"></div>
-    </div>
-    <br>
-    <div class="input-field">
-        <input v-model="dm" type="date" placeholder="Data de nascimento">
-        <div class="underline"></div>
-    </div>
-    <input @click="login" type="submit" value="Cadastrar info">
-    <br>
+      <input type="text" v-model="mail" placeholder="Seu email" minlength="3">
+      <div class="underline"></div>
+  </div>
+  <div class="input-field">
+    <input type="text" v-model="city" placeholder="cidade" minlength="3"/>
+    <div class="underline"></div>
+  </div>
+  <div class="input-field">
+    <input type="text" v-model="adress" placeholder="Seu endereço" minlength="3"/>
+    <div class="underline"></div>
+  </div>
+  <div class="input-field">
+    <input type="text" v-model="hobbi" placeholder="Seus hobbies" minlength="3"/>
+    <div class="underline"></div>
+</div>
+<div class="input-field">
+  <input type="text" v-model="langP" placeholder=" Suas linguagens de prog" minlength="3" />
+  <div class="underline"></div>
+</div>
+<div class="input-field">
+  <input type="text" v-model="biografia" placeholder="Sua biografia" minlength="3"/>
+  <div class="underline"></div>
+</div>
+<div class="input-field">
+  <label>Data de nascimento:</label>
+  <input v-model="date" type="date" placeholder="Data de nascimento">
+  <div class="underline"></div>
+</div>
+<div class="input-field">
+  <label>Selecione seu estado:</label>
+  <select v-model="state">
+    <option value="AC">Acre</option>
+    <option value="AL">Alagoas</option>
+    <option value="AP">Amapa</option>
+    <option value="AM">Amazonas</option>
+    <option value="BA">Bahia</option>
+    <option value="CE">Ceara</option>
+    <option value="DF">Distrito Federal</option>
+    <option value="ES">Espirito Santo</option>
+    <option value="GO">Goiania</option>
+    <option value="AC">Acre</option>
+    <option value="MA">Maranhão</option>
+    <option value="MT">Mato Grosso</option>
+    <option value="MS">Mato Groso do Sul</option>
+    <option value="MG">Minas Gerais</option>
+    <option value="PA">Para</option>
+    <option value="PB">Paraiba</option>
+    <option value="PE">Pernanbuco</option>
+    <option value="PI">Piauí</option>
+    <option value="PR">Paraná</option>
+    <option value="RJ">Rio de Janeiro</option>
+    <option value="RN">Rio Grande do Norte</option>
+    <option value="RS">Rio Grande do Sul</option>
+    <option value="RO">Rondonia</option>
+    <option value="RR">Roraima</option>
+    <option value="SC">Santa Catarina</option>
+    <option value="SP">São Paulo</option>
+    <option value="SE">Sergipe</option>
+    <option value="TO">Tocantins</option>
+  </select>
+  <div class="underline"></div>
+</div>
+<div class="input-field">
+  <input type="password" v-model="senha" placeholder="Sua senha" maxlength="20" />
+  <div class="underline"></div>
+</div>
+<div class="input-field">
+  <input type="password" v-model="confirmaSenha" placeholder="Confirme sua senha" maxlength="20" />
+  <div class="underline"></div>
+</div>
+    <input @click="login" class="btn-info" type="submit" value="Cadastrar info">
 </form>
 </div>
-    <div v-else>{{ usuario.nome }}</div>
+    <div v-else>
+      <div class="input-field">
+        <label>Seu nome e {{usuario.nome}}</label>
+        <div class="underline"></div>
+    </div>
+  <div class="input-field">
+    <label>Seus hobbies sao: {{usuario.hobbies}}</label>
+    <div class="underline"></div>
+</div>
+<div class="input-field">
+  <label>Suas linagens sao: {{usuario.lingProg}}</label>
+  <div class="underline"></div>
+</div>
+<div class="input-field">
+  <label>Seu endereco e {{usuario.endereco}}</label>
+  <div class="underline"></div>
+</div>
+<div class="input-field">
+  <label>Sua cidade e {{usuario.cidade}}</label>
+  <div class="underline"></div>
+</div>
+<div class="input-field">
+  <label>Sua biografia e: {{usuario.bio}}</label>
+  <div class="underline"></div>
+</div>
+<div class="input-field">
+  <label>Sua data de nascimento e: {{usuario.dm}}</label>
+     <div class="underline"></div>
+</div>
+<div class="input-field">
+  <label>Seu email e {{usuario.email}}</label>
+  <div class="underline"></div>
+</div>
+<div class="input-field">
+  <label>Seu estado e {{usuario.estado}}</label>
+  <div class="underline"></div>
+</div>
+<input @click="login" class="btn-info" type="submit" value="Editar info">
+    </div>
+    
 </main>
-
-
 </template>
 
 <style scoped>
@@ -128,27 +244,67 @@ function login(){
   width: 100%;
   }
   
+  select {
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: rgb(130, 110, 134);
+    padding-left: 10px;
+    margin-left: 10px;
+    width: auto;
+  }
+  form input[type="date"]{
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: rgb(130, 110, 134);
+    padding-left: 10px;
+    margin-left: 10px;
+    width: auto;
+  }
   .input-field input::placeholder {
   color: rgba(0, 0, 0, 0.5);
   }
   
-  form input[type="submit"] {
-  margin-top: 2rem;
-  padding: 0.4rem;
-  width: 100%;
-background-color: rgb(111, 86, 116);;
-  cursor: pointer;
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 300;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  }
+ .btn-info {
+    margin-top: 2rem;
+    padding: 0.4rem;
+    width: 100%;
+    background-color: rgb(111, 86, 116);;
+    cursor: pointer;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 300;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    }
   
-  form input[type="submit"]:hover {
+  .btn-info :hover {
   transition: 5ms;
   letter-spacing: 0.5px;
   background: linear-gradient(to right, #5f6675, #537075);
   }
+  .closebtn {
+    margin-top: 3px;
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
+.closebtn:hover {
+    color: black;
+}
+
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    width: 90%;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
 </style>
